@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+upload/
+model_faces/
+*.whl
+*.db
+*.log
