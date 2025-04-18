@@ -21,12 +21,14 @@ flask_api/
     ├── services/              # Lógica de negocio (procesamiento facial, etc.)
     └── config/                # Configuración de la aplicación
     
-# Requisitos Iniciales
-Antes de ejecutar la aplicación, asegúrate de tener instalado:
+### ⚙️ Requisitos Iniciales
 
-Python 3.8+
+Antes de ejecutar la aplicación, asegúrate de tener el siguiente entorno configurado:
 
-pip
+- **Python 3.8 o superior**  
+  Puedes verificar la versión instalada ejecutando:
+  ```bash
+  python --version
 
 Un entorno virtual (recomendado)
 
