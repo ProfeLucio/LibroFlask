@@ -11,25 +11,16 @@ Este branch representa la **versión inicial** del proyecto, con la estructura d
 ```bash
 flask_api/
 ├── .gitignore                 # Archivos y carpetas excluidos del control de versiones
-├── server.py                  # Punto de entrada principal de la aplicación Flask
 ├── requirements.txt           # Dependencias necesarias del entorno
 ├── README.md                  # Este documento
 ├── uploads/                   # Carpeta donde se almacenarán las imágenes faciales
 ├── model_faces/               # Carpeta reservada para modelos faciales (embeddings, etc.)
-└── app/
-    ├── __init__.py            # Inicialización del paquete Flask
+└── app/    
     ├── models/                # Definición de modelos SQLAlchemy
-    │   ├── __init__.py
-    │   └── usuario.py
     ├── routes/                # Endpoints y controladores API REST
-    │   ├── __init__.py
-    │   ├── registro_datos.py
-    │   └── registro_imagenes.py
     ├── services/              # Lógica de negocio (procesamiento facial, etc.)
-    │   └── __init__.py
     └── config/                # Configuración de la aplicación
-        └── settings.py
-```
+    
 # Requisitos Iniciales
 Antes de ejecutar la aplicación, asegúrate de tener instalado:
 
