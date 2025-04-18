@@ -20,7 +20,7 @@ flask_api/
     ├── routes/                # Endpoints y controladores API REST
     ├── services/              # Lógica de negocio (procesamiento facial, etc.)
     └── config/                # Configuración de la aplicación
-    
+```
 ### ⚙️ Requisitos Iniciales
 
 Antes de ejecutar la aplicación, asegúrate de tener el siguiente entorno configurado:
@@ -29,8 +29,14 @@ Antes de ejecutar la aplicación, asegúrate de tener el siguiente entorno confi
   Puedes verificar la versión instalada ejecutando:
   ```bash
   python --version
+  ```
 
-Un entorno virtual (recomendado)
+- **pip**
+    El gestor de paquetes de Python. Generalmente se instala junto con Python. Verifica su instalación con:
+    ```bash
+    pip --version
+    ```
+    
 
 # Clonar el repositorio
 git clone <url-del-repo>
