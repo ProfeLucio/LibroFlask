@@ -1,4 +1,4 @@
-# 🧱 Estructura Base del Proyecto Flask - Reconocimiento Facial
+# Estructura Base del Proyecto Flask - Reconocimiento Facial
 
 Este branch representa la **versión inicial** del proyecto, con la estructura de carpetas organizada y los archivos fundamentales listos para comenzar el desarrollo de una API Flask centrada en autenticación mediante reconocimiento facial.
 
