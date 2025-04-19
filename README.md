@@ -1,53 +1,99 @@
-# Estructura Base del Proyecto Flask - Reconocimiento Facial
+# 📂 Estructura del Proyecto — Módulo de Registro de Usuarios
 
-Este branch representa la **versión inicial** del proyecto, con la estructura de carpetas organizada y los archivos fundamentales listos para comenzar el desarrollo de una API Flask centrada en autenticación mediante reconocimiento facial.
+Este proyecto en Flask implementa el flujo inicial para el **registro de usuarios** en dos etapas:
 
-> ⚠️ **Importante:** Este branch NO contiene la implementación completa. Solo define la estructura y archivos base. La rama principal será `main` una vez finalizado el desarrollo.
+1. Registro de los datos básicos del usuario.
+2. Subida de tres imágenes faciales asociadas al usuario.
+
+> **Nota:** Esta estructura documenta únicamente lo correspondiente al **registro y carga de imágenes**. La lógica de reconocimiento facial y embeddings se desarrollará en una etapa posterior.
+
+```
+flask_api/
+├── app/
+│   ├── config/
+│   │   └── settings.py           # Configuración de base de datos y carpeta de subida
+│   ├── models/
+│   │   ├── __init__.py           # Inicialización de SQLAlchemy
+│   │   └── usuario.py            # Modelo de Usuario con datos y campos de imagen
+│   ├── routes/
+│   │   ├── __init__.py           # Registro de rutas con Blueprint
+│   │   ├── registro_datos.py     # Paso 1: registro de nombre y correo
+│   │   └── registro_imagenes.py  # Paso 2: subida de tres imágenes del rostro
+├── uploads/                      # Carpeta donde se almacenan las imágenes subidas
+├── server.py                     # Punto de entrada principal de la aplicación
+├── requirements.txt              # Lista de dependencias del entorno
+└── README.md                     # Documentación del proyecto (este archivo)
+```
 
 ---
 
-## 📂 Estructura del Proyecto
+## 🚀 Flujo de Registro de Usuario (Etapa 1)
+
+### 1. `POST /usuarios/registro-datos`
+Registra un usuario con su nombre y correo electrónico.
+
+**Entrada esperada (JSON):**
+```json
+{
+  "nombre": "Juan Pérez",
+  "correo": "juan@example.com"
+}
+```
+
+**Respuesta exitosa:**
+```json
+{
+  "message": "Usuario registrado",
+  "id": "UUID-del-usuario"
+}
+```
+
+---
+
+### 2. `POST /usuarios/registro-imagenes/<id>`
+Permite subir tres imágenes del rostro del usuario previamente registrado.
+
+**Entrada esperada (form-data):**
+- imagen1: archivo
+- imagen2: archivo
+- imagen3: archivo
+
+**Respuesta exitosa:**
+```json
+{
+  "message": "Imágenes cargadas y usuario actualizado"
+}
+```
+
+---
+
+## 🧱 Requisitos del sistema
+
+- Python 3.8 o superior
+- Flask
+- Flask-RESTful
+- Flask-SQLAlchemy
+- Werkzeug
+
+---
+
+## 📦 Instalación rápida
+
+1. Clona el repositorio y entra en la carpeta del proyecto:
 
 ```bash
-flask_api/
-├── .gitignore                 # Archivos y carpetas excluidos del control de versiones
-├── requirements.txt           # Dependencias necesarias del entorno
-├── README.md                  # Este documento
-├── uploads/                   # Carpeta donde se almacenarán las imágenes faciales
-├── model_faces/               # Carpeta reservada para modelos faciales (embeddings, etc.)
-└── app/    
-    ├── models/                # Definición de modelos SQLAlchemy
-    ├── routes/                # Endpoints y controladores API REST
-    ├── services/              # Lógica de negocio (procesamiento facial, etc.)
-    └── config/                # Configuración de la aplicación
-```
-### ⚙️ Requisitos Iniciales
-
-Antes de ejecutar la aplicación, asegúrate de tener el siguiente entorno configurado:
-
-- **Python 3.8 o superior**  
-  Puedes verificar la versión instalada ejecutando:
-  ```bash
-  python --version
-  ```
-
-- **pip**
-    El gestor de paquetes de Python. Generalmente se instala junto con Python. Verifica su instalación con:
-    ```bash
-    pip --version
-    ```
-    
-
-# Clonar el repositorio
-git clone <url-del-repo>
+git clone https://github.com/tu_usuario/flask_api.git
 cd flask_api
+```
 
-# Cambiar a la rama inicial
-git checkout estructura-inicial
+2. Instala las dependencias:
 
-# Crear entorno virtual
-python -m venv venv
-source venv/bin/activate  # o venv\Scripts\activate en Windows
-
-# Instalar dependencias
+```bash
 pip install -r requirements.txt
+```
+
+3. Inicia el servidor:
+
+```bash
+python server.py
+```
