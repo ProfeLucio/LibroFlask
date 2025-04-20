@@ -99,3 +99,26 @@ pip install -r requirements.txt
 ```bash
 python server.py
 ```
+
+
+## 🧠 Ajustes para el Manejo de Embeddings Faciales
+
+Este proyecto ha sido ampliado para incluir la gestión de vectores biométricos (*embeddings*) que representan las características faciales de los usuarios. A continuación se describen los cambios clave que se han realizado:
+
+### 📌 Nuevos componentes agregados
+
+- **`models/embedding.py`**: contiene el modelo `EmbeddingFacial`, encargado de almacenar el vector facial (como binario) y asociarlo a un usuario mediante una clave foránea.
+- **`services/face_processing.py`**: servicio que utiliza la librería `face_recognition` para generar embeddings a partir de las imágenes.
+- **`services/embedding_storage.py`**: módulo que convierte el embedding generado en binario y lo guarda en la base de datos.
+- **`services/embedding_query.py`**: permite cargar todos los embeddings desde la base de datos y convertirlos en arrays NumPy listos para comparación en memoria.
+
+### 🔄 Flujo Integrado
+
+Una vez que el usuario sube sus imágenes (`POST /usuarios/registro-imagenes/<id>`), el sistema:
+
+1. Procesa cada imagen para extraer un vector facial.
+2. Convierte el vector a binario.
+3. Guarda cada embedding en la tabla `embeddings_faciales`, asociándolo al `usuario_id`.
+
+Este enfoque optimiza el rendimiento del sistema en futuras etapas, donde se implementará la autenticación basada en reconocimiento facial, cargando los embeddings desde la base de datos en lugar de recalcularlos.
+
