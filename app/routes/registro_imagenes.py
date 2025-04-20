@@ -3,6 +3,8 @@ from flask import request, jsonify, current_app
 from flask_restful import Resource
 from werkzeug.utils import secure_filename
 from app.models import db, Usuario
+from app.services.face_processing import generar_embedding
+from app.services.embedding_storage import guardar_embedding
 
 class RegistroImagenes(Resource):
     def post(self, id):
@@ -26,6 +28,10 @@ class RegistroImagenes(Resource):
         usuario.imagen_1 = guardar(imagen1, 1)
         usuario.imagen_2 = guardar(imagen2, 2)
         usuario.imagen_3 = guardar(imagen3, 3)
+        for ruta in [usuario.imagen_1, usuario.imagen_2, usuario.imagen_3]:
+            embedding = generar_embedding(ruta)
+            if embedding is not None:
+                guardar_embedding(usuario.id, embedding, ruta)
         usuario.registrado_completo = True
 
         db.session.commit()
