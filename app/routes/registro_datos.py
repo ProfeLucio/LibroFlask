@@ -6,15 +6,15 @@ class RegistroDatos(Resource):
     def post(self):
         datos = request.get_json()
         nombre = datos.get("nombre")
-        correo = datos.get("correo")
+        email = datos.get("email")
 
-        if not nombre or not correo:
-            return {"error": "Nombre y correo son obligatorios"}, 400
+        if not nombre or not email:
+            return {"error": "Nombre y email son obligatorios"}, 400
 
-        if Usuario.query.filter_by(correo=correo).first():
-            return {"error": "El correo ya está registrado"}, 409
+        if Usuario.query.filter_by(email=email).first():
+            return {"error": "El email ya está registrado"}, 409
 
-        usuario = Usuario(nombre=nombre, correo=correo)
+        usuario = Usuario(nombre=nombre, email=email)
         db.session.add(usuario)
         db.session.commit()
 

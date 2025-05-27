@@ -1,8 +1,12 @@
+# app/routes/registro_imagenes.py
+
 import os
-from flask import request, jsonify, current_app
+from flask import request, current_app
 from flask_restful import Resource
 from werkzeug.utils import secure_filename
-from app.models import db, Usuario
+
+from app.models.usuario import Usuario
+from app.models import db
 from app.services.face_processing import generar_embedding
 from app.services.embedding_storage import guardar_embedding
 
@@ -12,27 +16,24 @@ class RegistroImagenes(Resource):
         if not usuario:
             return {"error": "Usuario no encontrado"}, 404
 
-        imagen1 = request.files.get("imagen1")
-        imagen2 = request.files.get("imagen2")
-        imagen3 = request.files.get("imagen3")
+        imagen = request.files.get("imagen")
+        if not imagen:
+            return {"error": "Debe subir imagen"}, 400
 
-        if not imagen1 or not imagen2 or not imagen3:
-            return {"error": "Debe subir tres imágenes"}, 400
+        # 1. Guardar la imagen en disco
+        carpeta = current_app.config["UPLOAD_FOLDER"]
+        os.makedirs(carpeta, exist_ok=True)
+        nombre = secure_filename(imagen.filename)
+        ruta = os.path.join(carpeta, f"{id}_{nombre}")
+        imagen.save(ruta)
 
-        def guardar(imagen, num):
-            nombre_seguro = secure_filename(imagen.filename)
-            ruta = os.path.join(current_app.config["UPLOAD_FOLDER"], f"{id}_{num}_{nombre_seguro}")
-            imagen.save(ruta)
-            return ruta
-
-        usuario.imagen_1 = guardar(imagen1, 1)
-        usuario.imagen_2 = guardar(imagen2, 2)
-        usuario.imagen_3 = guardar(imagen3, 3)
-        for ruta in [usuario.imagen_1, usuario.imagen_2, usuario.imagen_3]:
-            embedding = generar_embedding(ruta)
-            if embedding is not None:
-                guardar_embedding(usuario.id, embedding, ruta)
-        usuario.registrado_completo = True
-
+        # 2. Actualizar ruta en Usuario y commit parcial
+        usuario.imagen = ruta
         db.session.commit()
-        return {"message": "Imágenes cargadas y usuario actualizado"}, 200
+
+        # 3. Generar embedding y guardarlo
+        emb = generar_embedding(ruta)
+        if emb is not None:
+            guardar_embedding(usuario.id, emb, ruta)
+
+        return {"message": "Imagen cargada y usuario actualizado", "path": ruta}, 200

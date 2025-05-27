@@ -1,8 +1,10 @@
+# app/routes/perfil_usuario.py
+
 from flask_restful import Resource, reqparse
-from flask import request
+from flask import g
 from app.auth.decoradores import token_required
 from app.models.usuario import Usuario
-from app.config.settings import db
+from app.models import db
 
 class ActualizarPerfil(Resource):
     @token_required
@@ -12,7 +14,8 @@ class ActualizarPerfil(Resource):
         parser.add_argument('correo', type=str, required=True, help='Correo requerido')
         data = parser.parse_args()
 
-        user_id = request.user_id
+        # obtenemos el user_id inyectado por el decorator
+        user_id = g.user_id
         usuario = Usuario.query.get(user_id)
 
         if not usuario:
