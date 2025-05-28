@@ -51,7 +51,7 @@ class AutenticacionUsuario(Resource):
 
         # 3) Forzar copia C-contigua
         arr = np.ascontiguousarray(arr, dtype=np.uint8)
-        log.debug(f"[VALIDATE] dtype={arr.dtype}, shape={arr.shape}, contig={arr.flags['C_CONTIGUOUS']}")
+        #log.debug(f"[VALIDATE] dtype={arr.dtype}, shape={arr.shape}, contig={arr.flags['C_CONTIGUOUS']}")
 
         # 4) Extraer embeddings faciales
         try:
@@ -72,7 +72,7 @@ class AutenticacionUsuario(Resource):
         # 6) Comparar contra cada embedding
         for usuario_id, vector_guardado in embeddings:
             distancia = np.linalg.norm(vector_guardado - rostro_nuevo)
-            if distancia < 0.6:
+            if distancia < 0.4:
                 usuario = Usuario.query.get(usuario_id)
                 if not usuario:
                     continue

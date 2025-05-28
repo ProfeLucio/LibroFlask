@@ -21,7 +21,7 @@ def generar_embedding(ruta_imagen: str):
         # 2. FORZAR memoria C-contigua (requisito de dlib)
         arr = np.ascontiguousarray(arr)
 
-        log.debug(f"generar_embedding: dtype={arr.dtype}, shape={arr.shape}, contig={arr.flags['C_CONTIGUOUS']}")
+        #log.debug(f"generar_embedding: dtype={arr.dtype}, shape={arr.shape}, contig={arr.flags['C_CONTIGUOUS']}")
 
         # 3. Extrae embeddings
         encs = face_recognition.face_encodings(arr)
